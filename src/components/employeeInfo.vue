@@ -157,7 +157,7 @@
             alarmTime:'2019-09-21 16:40:23',
             alarmingSpan:50,
             pushLevel:'无推送',
-            employeeId:15,
+            employeeId:17,
             masterId:23,
             cardReader:{
               id:1,
@@ -165,8 +165,8 @@
               value:'12345678'
             },
             employee:{
-              id:15,
-              name:'当班员工1',
+              id:17,
+              name:'当班员工2',
               workId:'340823',
               position:'员工',
               email:''
@@ -1464,18 +1464,22 @@
       getInfosByPage (page, size = 20) {
         this.tableShowData = this.alarmInfo;
       },
+      //TODO ......
       searchInTable () {
         let tempArr = []
-        for (let index in this.employees) {
-          if (this.searchKey && this.employees[index].name && this.employees[index].name.match(this.searchKey)) {
-            tempArr.push(this.employees[index])
+      },
+      searchInObj(key,obj) {
+        let tempArr =[];
+        for (let index in obj) {
+          if(typeof obj[index]  == 'object') {
+            searchInObj(key in obj[index]);
+          }else {
+            if (key && obj[index] && obj[index].match(key)) {
+              tempArr.push(obj[index])
+            }
           }
         }
-        if (tempArr.length != 0) {
-          this.tableShowData = tempArr
-        } else {
-          alert('未找到合适的结果!')
-        }
+        return tempArr;
       },
       handleSelectChange (selection) {
         this.selectedColums = selection
