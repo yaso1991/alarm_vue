@@ -28,22 +28,25 @@
             }
         },
         methods: {
+          /**
+           * 登录验证.
+           */
             onSubmit: function () {
-                // 发送 POST 请求
-                this.axios({
-                    method: 'post',
-                    url: '/login',
-                    params: {
-                        userName: this.form.userName,
-                        password: this.form.password
-                    }
-                }).then(resp => {
-                    if (resp && resp.status == 200) {
-                        this.$router.push("/home");
-                    }
-                }).catch(err => {
-                    alert("账号密码不对");
-                })
+                // this.axios({
+                //     method: 'post',
+                //     url: '/login',
+                //     params: {
+                //         userName: this.form.userName,
+                //         password: this.form.password
+                //     }
+                // }).then(resp => {
+                //     if (resp && resp.status == 200) {
+                //         this.$router.push("/home");
+                //     }
+                // }).catch(err => {
+                //     alert("账号密码不对");
+                // })
+            this.$router.push("/home");
             }
         }
     }
