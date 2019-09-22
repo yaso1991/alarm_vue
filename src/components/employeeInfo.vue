@@ -32,7 +32,8 @@
         :data="tableShowData"
         @selection-change="handleSelectChange"
         border
-        height="820"
+        height="800"
+        max-height="800"
         size="mini"
         stripe
         style="width: 100%">
@@ -42,84 +43,87 @@
           width="30">
         </el-table-column>
         <el-table-column
-          align="left"
+          align="center"
           fixed
-          label="名称"
+          label="姓名"
+          sortable="true"
           prop="name"
-          width="150">
+          width="250">
         </el-table-column>
         <el-table-column
           label="类型"
+          align="center"
           prop="type"
           width="150">
         </el-table-column>
         <el-table-column
-          align="left"
+          align="center"
           label="打卡器"
-          prop="gunDescript"
+          prop="cardReader.name"
           width="100">
-          <template slot-scope="scope"></template>
         </el-table-column>
         <el-table-column
-          align="left"
+          align="center"
           label="监控状态"
           prop="state"
           width="100">
         </el-table-column>
         <el-table-column
           label="报警状态"
+          align="center"
+          sortable="true"
           prop="alarming"
           width="100">
+          <template slot-scope="scope">
+            <span>{{ scope.row.alarming?'报警中':'正常' }}</span>
+          </template>
         </el-table-column>
         <el-table-column
           label="报警时间"
+          align="center"
+          sortable="true"
           prop="alarmTime"
           width="200">
+          <template slot-scope="scope">
+            <span>{{ scope.row.alarmTime }}</span>
+          </template>
         </el-table-column>
         <el-table-column
           label="报警时长"
-          prop="alarmSpan"
+          align="center"
+          sortable="true"
+          prop="alarmingSpan"
           width="100">
         </el-table-column>
         <el-table-column
-          label="班组长级推送"
-          prop="lowPush"
+          label="推送"
+          align="center"
+          prop="pushLevel"
           width="100">
         </el-table-column>
         <el-table-column
-          align="left"
-          label="主任级推送"
-          prop="midPush"
-          width="100">
-        </el-table-column>
-        <el-table-column
-          label="经理级推送"
-          prop="highPush"
-          width="100">
-        </el-table-column>
-        <el-table-column
-          align="left"
+          align="center"
           label="员工编号"
-          prop="employeeNo"
+          prop="employee.workId"
           width="150">
         </el-table-column>
         <el-table-column
-          align="left"
+          align="center"
           label="员工姓名"
-          prop="employeeName"
-          width="100">
-        </el-table-column>
-        <el-table-column
-          align="left"
-          label="组长编号"
-          prop="masterNo"
+          prop="employee.name"
           width="150">
         </el-table-column>
         <el-table-column
-          align="left"
+          align="center"
+          label="组长编号"
+          prop="master.workId"
+          width="150">
+        </el-table-column>
+        <el-table-column
+          align="center"
           label="组长姓名"
-          prop="masterName"
-          width="100">
+          prop="master.name"
+          width="150">
         </el-table-column>
       </el-table>
     </el-row>
@@ -142,7 +146,1288 @@
       return {
         searchKey: '',
         tableShowData: [],
-        alarmInfo: [],
+        alarmInfo: [
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:false,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id: 1,
+            name: '7号线中轧测厚',
+            type: '测厚系统',
+            cardReaderId: 1,
+            state: '正常',
+            alarming: true,
+            alarmTime: '2019-09-21 16:40:23',
+            alarmingSpan: 50,
+            pushLevel: '无推送',
+            employeeId: 15,
+            masterId: 23,
+            cardReader: {
+              id: 1,
+              name: '1号读卡器',
+              value: '12345678'
+            },
+            employee: {
+              id: 15,
+              name: '当班员工1',
+              workId: '340823',
+              position: '员工',
+              email: ''
+            },
+            master: {
+              id: 23,
+              name: '组长1',
+              workId: '99999',
+              position: '班组长',
+              email: '1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            }
+          },
+          {
+            id:1,
+            name:'7号线中轧测厚',
+            type:'测厚系统',
+            cardReaderId:1,
+            state:'正常',
+            alarming:true,
+            alarmTime:'2019-09-21 16:40:23',
+            alarmingSpan:50,
+            pushLevel:'无推送',
+            employeeId:15,
+            masterId:23,
+            cardReader:{
+              id:1,
+              name:'1号读卡器',
+              value:'12345678'
+            },
+            employee:{
+              id:15,
+              name:'当班员工1',
+              workId:'340823',
+              position:'员工',
+              email:''
+            },
+            master:{
+              id:23,
+              name:'组长1',
+              workId:'99999',
+              position:'班组长',
+              email:'1721662545@qq.com'
+            },
+          }
+        ],
         selectedColums: []
       }
     },
@@ -177,22 +1462,7 @@
         }
       },
       getInfosByPage (page, size = 20) {
-        // this.tableLoading = true;
-        // this.axios({
-        //     method: 'get',
-        //     url: '/employeeInfo/checkInfos',
-        //     params: {
-        //         page: page,
-        //         size: size
-        //     },
-        //
-        // }).then(resp => {
-        //     this.tableLoading = false;
-        //     if (resp && resp.status == 200) {
-        //         this.employees = resp.data;
-        //         this.tableShowData = this.employees;
-        //     }
-        // })
+        this.tableShowData = this.alarmInfo;
       },
       searchInTable () {
         let tempArr = []
