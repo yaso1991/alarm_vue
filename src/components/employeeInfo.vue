@@ -1466,7 +1466,9 @@
       },
       //TODO ......
       searchInTable () {
-        let tempArr = []
+        let tempArr = [];
+        tempArr = searchInObj(this.searchKey,this.alarmInfo);
+        return tempArr;
       },
       searchInObj(key,obj) {
         let tempArr =[];
