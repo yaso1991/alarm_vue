@@ -45,7 +45,7 @@
         <el-table-column
           align="center"
           fixed
-          label="姓名"
+          label="名称"
           sortable="true"
           prop="name"
           width="250">
