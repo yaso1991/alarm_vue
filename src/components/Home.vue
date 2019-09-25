@@ -26,7 +26,7 @@
                   <span>监控页面</span>
                 </template>
               </el-menu-item>
-              <el-menu-item index="2">
+              <el-menu-item index="/SumInfo">
                 <template slot="title">
                   <i class="el-icon-coin"></i>
                   <span>报警汇总</span>
