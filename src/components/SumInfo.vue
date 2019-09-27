@@ -158,8 +158,8 @@
 </template>
 
 <script>
-  import EmployeeAddedDialog from './EmployeeAddedDialog'
-  import EmployeeUpdateDialog from './EmployeeUpdateDialog'
+  import EmployeeAddedDialog from './AlarmInfoAddedDialog'
+  import EmployeeUpdateDialog from './AlarmInfoUpdateDialog'
 
   export default {
     name: 'SumInfo',

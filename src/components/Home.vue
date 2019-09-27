@@ -20,13 +20,13 @@
           <el-col>
             <el-menu @close="handleClose" @open="handleOpen" background-color="black" class="el-menu-vertical-demo"
                      default-active="2" router="true" text-color="white">
-              <el-menu-item index="/EmployeeInfo">
+              <el-menu-item index="/alarmInfo">
                 <template slot="title">
                   <i class="el-icon-s-grid"></i>
                   <span>监控页面</span>
                 </template>
               </el-menu-item>
-              <el-menu-item index="/SumInfo">
+              <el-menu-item index="/sumInfo">
                 <template slot="title">
                   <i class="el-icon-coin"></i>
                   <span>报警汇总</span>

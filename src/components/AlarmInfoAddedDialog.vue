@@ -128,7 +128,7 @@
 
 <script>
   export default {
-    name: 'EmployeeAddedDialog',
+    name: 'AlarmInfoAddedDialog',
     data () {
       return {
         rules: {},

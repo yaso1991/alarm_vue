@@ -24,8 +24,8 @@
       </el-col>
     </el-row>
     <el-row>
-      <EmployeeAddedDialog ref="employeeAddedDialog"></EmployeeAddedDialog>
-      <EmployeeUpdateDialog ref="employeeUpdateDialog"></EmployeeUpdateDialog>
+      <AlarmInfoAddedDialog ref="employeeAddedDialog"></AlarmInfoAddedDialog>
+      <AlarmInfoUpdateDialog ref="employeeUpdateDialog"></AlarmInfoUpdateDialog>
     </el-row>
     <el-row style="margin-bottom: 10px">
       <el-table
@@ -132,15 +132,15 @@
 
 <script>
   import moment from 'moment'
-  import EmployeeAddedDialog from './EmployeeAddedDialog'
-  import EmployeeUpdateDialog from './EmployeeUpdateDialog'
+  import AlarmInfoAddedDialog from './AlarmInfoAddedDialog'
+  import AlarmInfoUpdateDialog from './AlarmInfoUpdateDialog'
 
   export default {
-    name: 'EmployeeInfo',
+    name: 'AlarmInfo',
 
     components: {
-      EmployeeAddedDialog,
-      EmployeeUpdateDialog
+      AlarmInfoAddedDialog,
+      AlarmInfoUpdateDialog
     },
     data () {
       return {
