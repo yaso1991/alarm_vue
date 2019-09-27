@@ -32,7 +32,7 @@
                   <span>报警汇总</span>
                 </template>
               </el-menu-item>
-              <el-menu-item index="3">
+              <el-menu-item index="/employeeInfo">
                 <template slot="title">
                   <i class="el-icon-copy-document"></i>
                   <span>员工管理</span>

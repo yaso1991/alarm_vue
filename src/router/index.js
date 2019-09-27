@@ -4,6 +4,7 @@ import Index from '@/components/Index'
 import Home from '@/components/Home'
 import AlarmInfo from '@/components/AlarmInfo'
 import SumInfo from '@/components/SumInfo'
+import EmployeeInfo from '@/components/EmployeeInfo'
 
 Vue.use(Router)
 
@@ -20,7 +21,8 @@ export default new Router({
       component: Home,
       children: [
         {path: '/alarmInfo', component: AlarmInfo},
-        {path: '/sumInfo', component: SumInfo}
+        {path: '/sumInfo', component: SumInfo},
+        {path: '/employeeInfo', component: EmployeeInfo}
       ]
     }
   ]
