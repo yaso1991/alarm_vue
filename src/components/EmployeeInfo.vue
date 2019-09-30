@@ -141,7 +141,7 @@ import EmployeeAddedDialog from './EmployeeAddedDialog'
           '5号线中轧测厚',
           '6号线中轧测厚',
         ],
-        searchShow: true,
+        searchShow: false,
         searchKey: '',
         tableShowData: [],
         alarmItems: [
