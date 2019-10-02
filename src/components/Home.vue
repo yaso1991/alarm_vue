@@ -38,7 +38,7 @@
                   <span>员工管理</span>
                 </template>
               </el-menu-item>
-              <el-menu-item index="4">
+              <el-menu-item index="/systemConfig">
                 <template slot="title">
                   <i class="el-icon-setting"></i>
                   <span>系统设置</span>
