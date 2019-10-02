@@ -15,7 +15,7 @@
         <el-button @click="showUpdateDialog" icon="el-icon-upload" style="margin-left: 0px" plain="true" size="small" type="primary">
           修改
         </el-button>
-        <el-button @click="" icon="el-icon-close" style="margin-left: 0px" plain="true" size="small" type="danger">删除
+        <el-button @click="handleDelete" icon="el-icon-close" style="margin-left: 0px" plain="true" size="small" type="danger">删除
         </el-button>
         <span>
           <el-upload
@@ -211,6 +211,16 @@ import EmployeeUpdateDialog from './EmployeeUpdateDialog'
     },
     methods: {
       handleDelete () {
+        if(this.selectedColums.length <= 0) {
+          alert('请先选择需要删除的员工资料.');
+          return;
+        }
+        if(!confirm('确认删除所选员工的资料?')) {
+          return ;
+        }
+        //TODO 删除员工资料
+        alert('删除成功.');
+
       },
       handleUpdate () {
         if (this.selectedColums.length == 1) {
