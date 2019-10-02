@@ -4,7 +4,7 @@
     :rules="rules"
     label-position="left"
     label-width="200px"
-    style="width: 800px;height: 600px; margin: 100px auto" >
+    style="width: 800px;height: 600px; margin: 100px;margin-left: 150px" >
     <el-row>
       <el-col :span="6">
         <div>
@@ -42,8 +42,8 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="10">
-          <span>
+      <el-col >
+          <span style="margin-left: 100px">
           <el-button @click="dVisible = false">取 消</el-button>
           <el-button @click="submitEmployeeInfo" type="primary">确 定</el-button>
         </span>
@@ -73,6 +73,7 @@
         this.dVisible = false
       },
       submitEmployeeInfo () {
+        this.$emit('submitted','wori');
       },
       show () {
         this.dVisible = true

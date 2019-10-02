@@ -38,7 +38,7 @@
                   <span>员工管理</span>
                 </template>
               </el-menu-item>
-              <el-menu-item index="/systemConfig">
+              <el-menu-item @click="showSystemConfigDrawer" index="">
                 <template slot="title">
                   <i class="el-icon-setting"></i>
                   <span>系统设置</span>
@@ -54,17 +54,27 @@
       </el-aside>
       <el-main id="main">
         <router-view></router-view>
+        <el-drawer
+          title="系统设置" size="700px" :visible.sync="drawer" :direction="direction" :before-close="closeDrawer">
+          <SystemConfig @submitted="closeConfigDrawer" />
+        </el-drawer>
       </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script>
+  import SystemConfig from '@/components/SystemConfig'
+
   export default {
     name: 'Home',
+    components:{
+      SystemConfig
+  },
     data () {
       return {
-        date: new Date()
+        date: new Date(),
+        drawer:false
       }
     },
     methods: {
@@ -73,6 +83,12 @@
       },
       handleClose () {
 
+      },
+      showSystemConfigDrawer() {
+        this.drawer = true;
+      },
+      closeConfigDrawer() {
+        this.drawer = false;
       }
     },
     mounted () {
