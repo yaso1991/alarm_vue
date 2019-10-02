@@ -15,7 +15,7 @@
       </span>
     </el-header>
     <el-container>
-      <el-aside width="160px" style="height: 880px">
+      <el-aside width="180px" style="height: 880px">
         <el-row>
           <el-col>
             <el-menu @close="handleClose" @open="handleOpen" background-color="black" class="el-menu-vertical-demo"
@@ -38,12 +38,23 @@
                   <span>员工管理</span>
                 </template>
               </el-menu-item>
-              <el-menu-item @click="showSystemConfigDrawer" index="">
+              <el-submenu index="1">
                 <template slot="title">
                   <i class="el-icon-setting"></i>
                   <span>系统设置</span>
                 </template>
-              </el-menu-item>
+                <el-menu-item @click="showSystemConfigDrawer" index="">
+                  <template slot="title">
+                    <span>系统设置</span>
+                  </template>
+                </el-menu-item>
+                <el-menu-item @click="showSystemConfigDrawer" index="">
+                  <template slot="title">
+                    <span>系统管理</span>
+                  </template>
+                </el-menu-item>
+              </el-submenu>
+
             </el-menu>
           </el-col>
         </el-row>
