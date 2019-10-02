@@ -3,7 +3,7 @@
     :before-close="handleClose"
     :visible.sync="dVisible"
     style="text-align: center"
-    title="添加员工资料"
+    title="修改员工资料"
     width="600px">
     <el-form
       :model="employeeInfo"
@@ -74,7 +74,7 @@
 
 <script>
   export default {
-    name: 'EmployeeAddedDialog',
+    name: 'EmployeeUpdateDialog',
     rules: [],
     data () {
       return {
@@ -100,7 +100,8 @@
       },
       submitEmployeeInfo () {
       },
-      show () {
+      show (employee) {
+        this.employeeInfo = employee;
         this.dVisible = true
       }
     }
@@ -110,3 +111,4 @@
 <style scoped>
 
 </style>
+

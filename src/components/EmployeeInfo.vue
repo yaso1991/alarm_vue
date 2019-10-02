@@ -10,9 +10,9 @@
           v-model="searchKey">
         </el-input>
         <el-button @click=" searchShow = !searchShow" icon="el-icon-search" style="margin-left: 0px" size="small" type="primary">搜索</el-button>
-        <el-button @click="showDialog" icon="el-icon-plus" style="margin-left: 0px" plain="true" size="small" type="primary">添加
+        <el-button @click="showAddedDialog" icon="el-icon-plus" style="margin-left: 0px" plain="true" size="small" type="primary">添加
         </el-button>
-        <el-button @click="" icon="el-icon-upload" style="margin-left: 0px" plain="true" size="small" type="primary">
+        <el-button @click="showUpdateDialog" icon="el-icon-upload" style="margin-left: 0px" plain="true" size="small" type="primary">
           修改
         </el-button>
         <el-button @click="" icon="el-icon-close" style="margin-left: 0px" plain="true" size="small" type="danger">删除
@@ -71,6 +71,7 @@
     </el-collapse-transition>
     <el-row>
       <EmployeeAddedDialog ref="employeeAddedDialog" />
+      <EmployeeUpdateDialog ref="employeeUpdateDialog" />
     </el-row>
     <el-row style="margin-bottom: 10px">
       <el-table
@@ -120,11 +121,13 @@
 
 <script>
 import EmployeeAddedDialog from './EmployeeAddedDialog'
+import EmployeeUpdateDialog from './EmployeeUpdateDialog'
 
   export default {
     name: 'EmployeeInfo',
     components:{
-      EmployeeAddedDialog
+      EmployeeAddedDialog,
+      EmployeeUpdateDialog
     },
     data () {
       return {
@@ -222,9 +225,16 @@ import EmployeeAddedDialog from './EmployeeAddedDialog'
       handleSelectChange (selection) {
         this.selectedColums = selection
       },
-      showDialog () {
+      showAddedDialog () {
         this.$refs.employeeAddedDialog.show()
-      }
+      },
+      showUpdateDialog () {
+        if(this.selectedColums.length != 1) {
+          alert('每次只能修改一个员工的资料.');
+          return;
+        }
+        this.$refs.employeeUpdateDialog.show(this.selectedColums[0])
+      },
     },
     mounted: function () {
       this.getInfosByPage(1)
