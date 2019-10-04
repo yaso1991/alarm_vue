@@ -6,7 +6,7 @@
                    size="small" style="margin-left: 0px"
                    type="primary">添加
         </el-button>
-        <el-button @click="" icon="el-icon-upload" plain="true" size="small" style="margin-left: 0px" type="primary">
+        <el-button @click="handleUpdate" icon="el-icon-upload" plain="true" size="small" style="margin-left: 0px" type="primary">
           修改
         </el-button>
         <el-button @click="" icon="el-icon-close" plain="true" size="small" style="margin-left: 0px" type="danger">删除
@@ -49,6 +49,35 @@
         </el-row>
       </div>
     </el-collapse-transition>
+    <el-collapse-transition>
+      <div class="transition-box"
+           style="margin: 10px 25px;border-radius: 3px;border: #E4E7ED solid 1px;padding-top: 20px;padding-left: 20px"
+           v-show="updateManagerInfoDialogVisible">
+        <el-row>
+          <el-form :inline="true" :model="updateManagerInfoForm" class="demo-form-inline">
+            <el-col :span="16">
+              <el-form-item label="用户名:">
+                <el-input size="small" style="width: 150px" v-model="updateManagerInfoForm.username"/>
+              </el-form-item>
+              <el-form-item label="密码:">
+                <el-input size="small" style="width: 150px" v-model="updateManagerInfoForm.password"/>
+              </el-form-item>
+              <el-form-item label="管理等级:">
+                <el-select size="small" v-model="updateManagerInfoForm.level" style="width: 150px">
+                  <el-option v-for="item in levelItems" :key="item" :value="item" :label="item" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8" style="text-align:right">
+              <el-form-item>
+                <el-button @click="onSubmit" size="small" type="primary">修改</el-button>
+                <el-button @click="updateManagerInfoDialogVisible = false" size="small" type="danger">取消</el-button>
+              </el-form-item>
+            </el-col>
+          </el-form>
+        </el-row>
+      </div>
+    </el-collapse-transition>
     <el-row>
       <el-table
         :data="tableShowData" @selection-change="handleSelectChange" border height="800" max-height="800" size="mini"
@@ -68,8 +97,16 @@
     data () {
       return {
         levelItems:['系统管理员','普通管理员'],
-        addManagerInfoDialogVisible: true,
+        addManagerInfoDialogVisible: false,
+        updateManagerInfoDialogVisible:false,
         managerInfoForm: {
+          username: '',
+          password: '',
+          level: ''
+        },
+        selectedColums: [],
+        updateManagerInfoForm: {
+          id:'',
           username: '',
           password: '',
           level: ''
@@ -97,7 +134,19 @@
         tableShowData: []
       }
     },
-    methods: {},
+    methods: {
+      handleUpdate() {
+        if(this.selectedColums.length != 1) {
+          alert('一次只能选择一行数据进行更新.');
+          return;
+        }
+        this.updateManagerInfoForm = this.selectedColums[0];
+        this.updateManagerInfoDialogVisible = true;
+      },
+      handleSelectChange(selection){
+        this.selectedColums = selection;
+      },
+    },
     mounted: function () {
       this.tableShowData = this.managerInfos
     }
