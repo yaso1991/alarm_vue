@@ -9,7 +9,7 @@
         <el-button @click="handleUpdate" icon="el-icon-upload" plain="true" size="small" style="margin-left: 0px" type="primary">
           修改
         </el-button>
-        <el-button @click="" icon="el-icon-close" plain="true" size="small" style="margin-left: 0px" type="danger">删除
+        <el-button @click="handleDelete" icon="el-icon-close" plain="true" size="small" style="margin-left: 0px" type="danger">删除
         </el-button>
       </el-col>
       <el-col :span="15" style="text-align: right">
@@ -142,6 +142,15 @@
         }
         this.updateManagerInfoForm = this.selectedColums[0];
         this.updateManagerInfoDialogVisible = true;
+      },
+      handleDelete() {
+        if(this.selectedColums.length == 0) {
+          alert('请先选择最少一行进行删除.');
+          return;
+        }
+        if(!confirm('确认删除所选择的行?')) {
+          return;
+        }
       },
       handleSelectChange(selection){
         this.selectedColums = selection;
