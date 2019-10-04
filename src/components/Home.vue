@@ -1,12 +1,12 @@
 <template>
   <el-container>
     <el-header>
-      <span style="font-size: larger" >双飞带材生产线报警监控系统</span>
+      <span style="font-size: larger">双飞带材生产线报警监控系统</span>
       <span style="float: right;">
         <el-dropdown>
-          <span style="color: white" class="el-dropdown-link">
+          <span class="el-dropdown-link" style="color: white">
             系统管理员
-            <i class="el-icon-arrow-down el-icon--right" />
+            <i class="el-icon-arrow-down el-icon--right"/>
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>登出</el-dropdown-item>
@@ -15,7 +15,7 @@
       </span>
     </el-header>
     <el-container>
-      <el-aside width="180px" style="height: 880px">
+      <el-aside style="height: 880px" width="180px">
         <el-row>
           <el-col>
             <el-menu @close="handleClose" @open="handleOpen" background-color="black" class="el-menu-vertical-demo"
@@ -48,7 +48,7 @@
                     <span>系统设置</span>
                   </template>
                 </el-menu-item>
-                <el-menu-item @click="showSystemConfigDrawer" index="">
+                <el-menu-item @click="showManagerInfoDrawer" index="">
                   <template slot="title">
                     <span>系统管理</span>
                   </template>
@@ -59,16 +59,23 @@
           </el-col>
         </el-row>
         <el-row style="color:white;margin-top: 600px">
-          <el-col style="line-height: 20px" >{{date.toLocaleDateString()}}</el-col>
-          <el-col style="line-height: 20px" >{{date.toLocaleTimeString()}}</el-col>
+          <el-col style="line-height: 20px">{{date.toLocaleDateString()}}</el-col>
+          <el-col style="line-height: 20px">{{date.toLocaleTimeString()}}</el-col>
         </el-row>
       </el-aside>
       <el-main id="main">
         <router-view></router-view>
         <el-drawer
-          title="系统设置" size="700px" :visible.sync="drawer" :direction="direction" :before-close="closeDrawer">
-          <SystemConfig @submitted="closeConfigDrawer" />
+          :before-close="closeDrawer" :direction="direction" :visible.sync="systemConfigVisible" size="700px"
+          title="系统设置">
+          <SystemConfig @submitted="closeConfigDrawer"/>
         </el-drawer>
+        <el-drawer
+          :before-close="closeDrawer" :direction="direction" :visible.sync="ManagerInfoDrawerVisible" size="1100px"
+          title="管理员设置">
+          <ManagerInfo @submitted="closeManagerInfo"/>
+        </el-drawer>
+
       </el-main>
     </el-container>
   </el-container>
@@ -76,16 +83,19 @@
 
 <script>
   import SystemConfig from '@/components/SystemConfig'
+  import ManagerInfo from '@/components/ManagerInfo'
 
   export default {
     name: 'Home',
-    components:{
-      SystemConfig
-  },
+    components: {
+      SystemConfig,
+      ManagerInfo
+    },
     data () {
       return {
         date: new Date(),
-        drawer:false
+        systemConfigVisible: false,
+        ManagerInfoDrawerVisible: false,
       }
     },
     methods: {
@@ -95,11 +105,17 @@
       handleClose () {
 
       },
-      showSystemConfigDrawer() {
-        this.drawer = true;
+      showSystemConfigDrawer () {
+        this.systemConfigVisible = true
       },
-      closeConfigDrawer() {
-        this.drawer = false;
+      showManagerInfoDrawer () {
+        this.ManagerInfoDrawerVisible = true
+      },
+      closeConfigDrawer () {
+        this.systemConfigVisible = false
+      },
+      closeManagerInfo () {
+        this.ManagerInfoDrawerVisible = false
       }
     },
     mounted () {
@@ -149,8 +165,6 @@
     text-align: left;
     line-height: 60px;
   }
-
-
 
 
 </style>
