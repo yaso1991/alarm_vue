@@ -1,7 +1,7 @@
 <template>
   <el-form :model="form" :rules="rules" class="form" label-width="80px" ref="form">
-    <el-form-item label="用户名" prop="userName">
-      <el-input v-model="form.userName"></el-input>
+    <el-form-item label="用户名" prop="username">
+      <el-input v-model="form.username"></el-input>
     </el-form-item>
     <el-form-item label="密码" prop="password">
       <el-input show-password v-model="form.password"></el-input>
@@ -13,43 +13,48 @@
 </template>
 
 <script>
-    export default {
-        name: "Index",
-        data() {
-            return {
-                rules: {
-                    userName: [{required: true, message: '请输入用户名', trigger: 'blur'}],
-                    password: [{required: true, message: '请输入密码', trigger: 'blur'}]
-                },
-                form: {
-                    userName: 'admin',
-                    password: '123'
-                }
-            }
+  export default {
+    name: 'Index',
+    data () {
+      return {
+        rules: {
+          username: [{required: true, message: '请输入用户名', trigger: 'blur'}],
+          password: [{required: true, message: '请输入密码', trigger: 'blur'}]
         },
-        methods: {
-          /**
-           * 登录验证.
-           */
-            onSubmit: function () {
-                // this.axios({
-                //     method: 'post',
-                //     url: '/login',
-                //     params: {
-                //         userName: this.form.userName,
-                //         password: this.form.password
-                //     }
-                // }).then(resp => {
-                //     if (resp && resp.status == 200) {
-                //         this.$router.push("/home");
-                //     }
-                // }).catch(err => {
-                //     alert("账号密码不对");
-                // })
-            this.$router.push("/home");
-            }
+        form: {
+          username: '',
+          password: ''
         }
+      }
+    },
+    methods: {
+      /**
+       * 登录验证.
+       */
+      onSubmit () {
+        this.axios({
+          method: 'post',
+          url: '/login',
+          params: {
+            username: this.form.username,
+            password: this.form.password
+          }
+        }).then(resp => {
+          if (!resp || resp.status != 200) {
+            alert('服务器未响应')
+            return
+          }
+          if (!resp.data) {
+            alert('账号密码错误')
+            return
+          }
+          this.$router.push('/home')
+        }).catch(err => {
+          alert(err)
+        })
+      }
     }
+  }
 </script>
 
 <style scoped>
