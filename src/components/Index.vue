@@ -48,7 +48,7 @@
             alert('账号密码错误')
             return
           }
-          this.$router.push('/home')
+          this.$router.push('/alarmInfo')
         }).catch(err => {
           alert(err)
         })
