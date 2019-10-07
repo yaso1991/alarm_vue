@@ -151,6 +151,14 @@
         if(!confirm('确认删除所选择的行?')) {
           return;
         }
+        // for(selection in this.selectedColums) {
+        //
+        // }
+        // this.axios({
+        //   method:'post',
+        //   url:'alarmInfo/deleteAlarmInfos',
+        //   data:this.
+        // })
       },
       handleSelectChange(selection){
         this.selectedColums = selection;

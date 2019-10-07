@@ -155,7 +155,7 @@
         if (this.selectedColums.length <= 0) {
           return
         }
-        if (!confirm('确认删除?')) {
+        if (!confirm('确认删除选择的报警点?')) {
           return
         }
         let deleteIds = []
@@ -164,14 +164,16 @@
         }
         this.axios({
           method: 'post',
-          url: '/employeeInfo/deleteEmployees',
+          url: '/alarmInfo/deleteAlarmInfos',
           data: deleteIds,
         }).then(resp => {
           if (resp && resp.status == 200 && resp.data == true) {
-            alert('删除成功')
+            alert('删除成功.')
             return
           }
-          alert('删除失败')
+          alert('删除失败.')
+        }).catch(err=>{
+          alert(err);
         })
       },
       handleUpdate () {
