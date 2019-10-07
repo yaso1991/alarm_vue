@@ -1,5 +1,5 @@
 <template>
-  <el-form :model="form" :rules="rules" class="form" label-width="80px" ref="form">
+  <el-form :model="form" :rules="rules" class="form" label-width="80px" ref="formOfAddAlarm">
     <el-form-item label="用户名" prop="username">
       <el-input v-model="form.username"></el-input>
     </el-form-item>
@@ -32,26 +32,32 @@
        * 登录验证.
        */
       onSubmit () {
-        this.axios({
-          method: 'post',
-          url: '/login',
-          params: {
-            username: this.form.username,
-            password: this.form.password
+        this.$refs.formOfAddAlarm.validate((valid) => {
+          if (valid) {
+            this.axios({
+              method: 'post',
+              url: '/login',
+              params: {
+                username: this.form.username,
+                password: this.form.password
+              }
+            }).then(resp => {
+              if (!resp || resp.status != 200) {
+                alert('服务器未响应')
+                return
+              }
+              if (!resp.data) {
+                alert('账号密码错误')
+                return
+              }
+              this.$router.push('/alarmInfo')
+            }).catch(err => {
+              alert(err)
+            })
+          }else {
+            alert("用户名或密码格式不对.");
           }
-        }).then(resp => {
-          if (!resp || resp.status != 200) {
-            alert('服务器未响应')
-            return
-          }
-          if (!resp.data) {
-            alert('账号密码错误')
-            return
-          }
-          this.$router.push('/alarmInfo')
-        }).catch(err => {
-          alert(err)
-        })
+        });
       }
     }
   }

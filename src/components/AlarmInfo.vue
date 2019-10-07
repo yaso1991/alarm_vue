@@ -19,13 +19,13 @@
       </el-col>
       <el-col span="12" style="text-align: right;">
         <el-button @click="showDialog" plain="true" size="small" type="primary">添加</el-button>
-        <el-button @click="handleDelete" plain="true" size="small" type="danger">删除</el-button>
         <el-button @click="handleUpdate" plain="true" size="small">修改</el-button>
+        <el-button @click="handleDelete" plain="true" size="small" type="danger">删除</el-button>
       </el-col>
     </el-row>
     <el-row>
-      <AlarmInfoAddedDialog ref="employeeAddedDialog"></AlarmInfoAddedDialog>
-      <AlarmInfoUpdateDialog ref="employeeUpdateDialog"></AlarmInfoUpdateDialog>
+      <AlarmInfoAddedDialog ref="alarmInfoAddedDialog"></AlarmInfoAddedDialog>
+      <AlarmInfoUpdateDialog ref="alarmInfoUpdateDialog"></AlarmInfoUpdateDialog>
     </el-row>
     <el-row style="margin-bottom: 10px">
       <el-table
@@ -44,60 +44,61 @@
         </el-table-column>
         <el-table-column
           align="center"
-          fixed
           label="名称"
-          sortable="true"
           prop="name"
+
           width="250">
         </el-table-column>
         <el-table-column
-          label="类型"
           align="center"
+          label="类型"
           prop="type"
-          width="150">
+          width="100">
         </el-table-column>
         <el-table-column
           align="center"
           label="打卡器"
           prop="cardReader.name"
-          width="100">
+          width="150">
         </el-table-column>
         <el-table-column
           align="center"
           label="监控状态"
           prop="state"
-          width="100">
+          width="80">
         </el-table-column>
         <el-table-column
-          label="报警状态"
           align="center"
-          sortable="true"
+          label="报警状态"
           prop="alarming"
-          width="100">
+
+          width="80">
           <template slot-scope="scope">
-            <span>{{ scope.row.alarming?'报警中':'正常' }}</span>
+            <span>{{ scope.row.alarming?'正常':'故障' }}</span>
           </template>
         </el-table-column>
         <el-table-column
-          label="报警时间"
           align="center"
-          sortable="true"
+          label="报警时间"
           prop="alarmTime"
+
           width="200">
           <template slot-scope="scope">
-            <span>{{ scope.row.alarmTime }}</span>
+            <span>{{ scope.row.alarmTime | filterNullValue }}</span>
           </template>
         </el-table-column>
         <el-table-column
-          label="报警时长"
           align="center"
-          sortable="true"
-          prop="alarmingSpan"
+          label="报警时长"
+          prop="alarmSpan"
           width="100">
+          <template slot-scope="scope">
+            <span>{{ scope.row.alarmSpan | filterNullValue }}</span>
+          </template>
         </el-table-column>
         <el-table-column
-          label="推送"
           align="center"
+          label="推送"
           prop="pushLevel"
           width="100">
         </el-table-column>
@@ -131,7 +132,6 @@
 </template>
 
 <script>
-  import moment from 'moment'
   import AlarmInfoAddedDialog from './AlarmInfoAddedDialog'
   import AlarmInfoUpdateDialog from './AlarmInfoUpdateDialog'
 
@@ -169,7 +169,6 @@
         }).then(resp => {
           if (resp && resp.status == 200 && resp.data == true) {
             alert('删除成功')
-            this.getInfosByPage(1)
             return
           }
           alert('删除失败')
@@ -177,40 +176,53 @@
       },
       handleUpdate () {
         if (this.selectedColums.length == 1) {
-          this.$refs.employeeUpdateDialog.show(this.selectedColums[0])
+          this.$refs.alarmInfoUpdateDialog.show(this.selectedColums[0])
         }
-      },
-      getInfosByPage (page, size = 20) {
-        this.tableShowData = this.alarmInfo;
       },
       //TODO ......
       searchInTable () {
-        let tempArr = [];
-        tempArr = searchInObj(this.searchKey,this.alarmInfo);
-        return tempArr;
+        let tempArr = []
+        tempArr = searchInObj(this.searchKey, this.alarmInfo)
+        return tempArr
       },
-      searchInObj(key,obj) {
-        let tempArr =[];
+      searchInObj (key, obj) {
+        let tempArr = []
         for (let index in obj) {
-          if(typeof obj[index]  == 'object') {
-            searchInObj(key in obj[index]);
-          }else {
+          if (typeof obj[index] == 'object') {
+            searchInObj(key in obj[index])
+          } else {
             if (key && obj[index] && obj[index].match(key)) {
               tempArr.push(obj[index])
             }
           }
         }
-        return tempArr;
+        return tempArr
       },
       handleSelectChange (selection) {
         this.selectedColums = selection
       },
       showDialog () {
-        this.$refs.employeeAddedDialog.show()
+        this.$refs.alarmInfoAddedDialog.show()
+      }
+    },
+    filters:{
+      filterNullValue(val) {
+        if(!val) {
+          return "-";
+        }
       }
     },
     mounted: function () {
-      this.getInfosByPage(1)
+      this.axios({
+        method: 'get',
+        url: '/alarmInfo',
+      }).then(resp => {
+        if (!resp || !resp.status == 200) {
+          return
+        }
+        this.alarmInfo = resp.data
+        this.tableShowData = this.alarmInfo
+      })
     }
   }
 

@@ -10,8 +10,8 @@
       :rules="rules"
       label-position="right"
       label-width="80px"
-      style="padding-left: 140px"
-      ref="addAlarmInfoForm">
+      ref="addAlarmInfoForm"
+      style="padding-left: 140px">
       <el-row>
         <el-col :span="6">
           <div>
@@ -47,9 +47,10 @@
           <div>
             <el-form-item label="打卡器:" prop="cardReaderId">
               <el-select
+                @visible-change="loadCardReaders"
                 placeholder="选择打卡器"
                 style="width: 200px"
-                v-model="alarmInfo.cardReader.Id">
+                v-model="alarmInfo.cardReaderId">
                 <el-option
                   :key="item.id"
                   :label="item.name"
@@ -87,7 +88,7 @@
               label="端口:"
               prop="comName">
               <el-select
-                placeholder="请选择民族"
+                placeholder="请选择端口"
                 style="width: 200px"
                 v-model="alarmInfo.comName">
                 <el-option
@@ -115,8 +116,8 @@
       <el-row>
         <el-col :span="10">
           <span>
-          <el-button @click="dVisible = false">取 消</el-button>
-          <el-button @click="submitEmployeeInfo" type="primary">确 定</el-button>
+            <el-button @click="submitEmployeeInfo" type="primary">确 定</el-button>
+             <el-button @click="dVisible = false">取 消</el-button>
         </span>
         </el-col>
       </el-row>
@@ -132,19 +133,7 @@
     data () {
       return {
         rules: {},
-        alarmInfo: {
-          id: 0,
-          name: '',
-          type: '测厚系统',
-          cardReaderId: 0,
-          state: '正常',
-          comName: 'COM4',
-          addr:'40001',
-          cardReader: {
-            id: 1,
-            name: '1#打卡器'
-          }
-        },
+        alarmInfo: {},
         type: [
           '测厚系统',
           '缺陷识别系统',
@@ -164,28 +153,7 @@
           'COM5',
           'COM6'
         ],
-        cardReaders: [
-          {
-            id: 1,
-            name: '1#打卡器'
-          },
-          {
-            id: 2,
-            name: '2#打卡器'
-          },
-          {
-            id: 3,
-            name: '3#打卡器'
-          },
-          {
-            id: 4,
-            name: '4#打卡器'
-          },
-          {
-            id: 5,
-            name: '5#打卡器'
-          }
-        ],
+        cardReaders: [],
         dVisible: false,
       }
     },
@@ -200,29 +168,32 @@
           }
           this.axios({
             method: 'post',
-            url: '/employeeInfo/addEmployee',
-            data: this.emp
+            url: '/alarmInfo/fixAlarmInfo',
+            data: this.alarmInfo
           }).then(resp => {
               if (resp && resp.status == 200) {
-                if (resp.data == false) {
-                  alert('添加失败')
+                if (resp && resp.status == 200 && resp.data) {
+                  alert('修改成功.')
+                  this.dVisible = false
                   return
                 }
-                alert('添加成功')
-                this.dVisible = false
-              } else {
-                alert('提交失败,请检查网络')
+                alert('修改失败.')
               }
             }
-          ).catch(() => {
-              alert('interruptted by excepitons')
+          ).catch((err) => {
+              alert(err)
             }
           )
         })
       },
-      show(alarmInfo) {
-        this.alarmInfo = alarmInfo;
-        this.dVisible = true;
+      loadCardReaders () {
+        this.util.loadCardReadersData().then(value => {
+          this.cardReaders = value
+        })
+      },
+      show (alarmInfo) {
+        this.alarmInfo = alarmInfo
+        this.dVisible = true
       }
     }
   }
