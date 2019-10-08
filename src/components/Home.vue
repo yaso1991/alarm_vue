@@ -59,8 +59,7 @@
           </el-col>
         </el-row>
         <el-row style="color:white;margin-top: 600px">
-          <el-col style="line-height: 20px">{{date.toLocaleDateString()}}</el-col>
-          <el-col style="line-height: 20px">{{date.toLocaleTimeString()}}</el-col>
+          <el-col style="line-height: 20px">{{this.date}}</el-col>
         </el-row>
       </el-aside>
       <el-main id="main">
@@ -84,6 +83,7 @@
 <script>
   import SystemConfig from '@/components/SystemConfig'
   import ManagerInfo from '@/components/ManagerInfo'
+  import moment from 'moment'
 
   export default {
     name: 'Home',
@@ -120,7 +120,7 @@
     },
     mounted () {
       this.timer = setInterval(() => {
-        this.date = new Date()
+        this.date = moment().format("YYYY-MM-DD HH:mm:ss")
       }, 1000)
     }
   }

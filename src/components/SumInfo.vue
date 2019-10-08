@@ -29,7 +29,9 @@
       <el-col span="12" style="text-align: right;">
         <el-row style="text-align: right">
           <el-pagination
-            :total="100"
+            :total="total"
+            page-size="20"
+            @current-change="loadSumInfos"
             background
             layout="prev, pager, next">
           </el-pagination>
@@ -53,14 +55,7 @@
                 </el-date-picker>
               </el-form-item>
               <el-form-item label="报警点:">
-                <el-select placeholder="请选择" size="small" v-model="searchForm.searchAlarmPoint">
-                  <el-option
-                    :key="item"
-                    :label="item"
-                    :value="item"
-                    v-for="item in alarmPoints">
-                  </el-option>
-                </el-select>
+                <el-input placeholder="报警点名称" size="small" v-model="searchForm.searchAlarmPoint"/>
               </el-form-item>
               <el-form-item label="当班员工:">
                 <el-input placeholder="员工姓名" size="small" v-model="searchForm.employeeName"/>
@@ -98,28 +93,33 @@
         </el-table-column>
         <el-table-column
           align="center"
-          fixed
           label="报警点"
-          prop="name"
+          prop="alarmInfo.name"
           width="200">
         </el-table-column>
         <el-table-column
           align="center"
           label="报警时间"
-          prop="startTime"
+          prop="alarmStartTime"
           width="350">
+          <template slot-scope="scope">
+            {{scope.row.alarmStartTime | timeFormat}}
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
           label="报警时长"
-          prop="span"
+          prop="alarmSpan"
           width="100">
         </el-table-column>
         <el-table-column
           align="center"
           label="结束时间"
-          prop="endTime"
+          prop="alarmEndTime"
           width="300">
+          <template slot-scope="scope">
+            {{calculateEndTime(scope.row.alarmStartTime,scope.row.alarmSpan)}}
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
@@ -148,7 +148,7 @@
         <el-table-column
           align="center"
           label="组长姓名"
-          prop="employee.name"
+          prop="master.name"
           width="150">
         </el-table-column>
       </el-table>
@@ -160,10 +160,10 @@
 <script>
   import EmployeeAddedDialog from './AlarmInfoAddedDialog'
   import EmployeeUpdateDialog from './AlarmInfoUpdateDialog'
+  import moment from 'moment'
 
   export default {
     name: 'SumInfo',
-
     components: {
       EmployeeAddedDialog,
       EmployeeUpdateDialog
@@ -175,94 +175,11 @@
           searchAlarmPoint: '',
           employeeName: ''
         },
-        alarmPoints: [
-          '1号线中轧测厚',
-          '2号线中轧测厚',
-          '3号线中轧测厚',
-          '4号线中轧测厚',
-          '5号线中轧测厚',
-          '6号线中轧测厚',
-        ],
         searchShow: false,
         searchKey: '',
         tableShowData: [],
-        alarmItems: [
-          {
-            id: 1,
-            name: '7号线中轧测厚',
-            startTime: '2019-09-21 16:40:23',
-            span: 100,
-            endTime: '正常',
-            masterId: 50,
-            pushLevel: '班组长级',
-            employeeId: 17,
-            masterId: 23,
-            employee: {
-              id: 17,
-              name: '当班员工2',
-              workId: '340823',
-              position: '员工',
-              email: ''
-            },
-            master: {
-              id: 23,
-              name: '组长1',
-              workId: '99999',
-              position: '班组长',
-              email: '1721662545@qq.com'
-            }
-          },
-          {
-            id: 1,
-            name: '7号线中轧测厚',
-            startTime: '2019-09-21 16:40:23',
-            span: 100,
-            endTime: '正常',
-            masterId: 50,
-            pushLevel: '班组长级',
-            employeeId: 17,
-            masterId: 23,
-            employee: {
-              id: 17,
-              name: '当班员工2',
-              workId: '340823',
-              position: '员工',
-              email: ''
-            },
-            master: {
-              id: 23,
-              name: '组长1',
-              workId: '99999',
-              position: '班组长',
-              email: '1721662545@qq.com'
-            }
-          },
-          {
-            id: 1,
-            name: '7号线中轧测厚',
-            startTime: '2019-09-21 16:40:23',
-            span: 100,
-            endTime: '正常',
-            masterId: 50,
-            pushLevel: '班组长级',
-            employeeId: 17,
-            masterId: 23,
-            employee: {
-              id: 17,
-              name: '当班员工2',
-              workId: '340823',
-              position: '员工',
-              email: ''
-            },
-            master: {
-              id: 23,
-              name: '组长1',
-              workId: '99999',
-              position: '班组长',
-              email: '1721662545@qq.com'
-            }
-          },
-        ],
+        alarmItems: [],
+        total:'',
         selectedColums: []
       }
     },
@@ -285,19 +202,38 @@
         }).then(resp => {
           if (resp && resp.status == 200 && resp.data == true) {
             alert('删除成功')
-            this.getInfosByPage(1)
+            this.loadSumInfos()
             return
           }
           alert('删除失败')
         })
+      },
+      calculateEndTime(start,span) {
+        return  moment.unix(moment(start).unix() + span).format("YYYY-MM-DD HH:mm:ss");
+
       },
       handleUpdate () {
         if (this.selectedColums.length == 1) {
           this.$refs.employeeUpdateDialog.show(this.selectedColums[0])
         }
       },
-      getInfosByPage (page, size = 20) {
-        this.tableShowData = this.alarmItems
+      loadSumInfos (page) {
+        this.axios({
+          method:'get',
+          url:'/sumInfo/getSumInfos',
+          params:{
+            page:page
+          }
+        }).then(resp=>{
+          if(resp && resp.status == 200){
+            this.alarmItems = resp.data;
+            this.tableShowData = this.alarmItems;
+            return;
+          }
+          alert("加载失败.");
+        }).catch(err=>{
+          alert(err);
+        })
       },
       //TODO ......
       searchInTable () {
@@ -321,12 +257,28 @@
       handleSelectChange (selection) {
         this.selectedColums = selection
       },
+      getTotal() {
+        this.axios({
+          method:'get',
+          url:'/sumInfo/getTotal'
+        }).then(resp=>{
+          if(resp && resp.status == 200) {
+            this.total = resp.data;
+          }
+        })
+      },
       showDialog () {
         this.$refs.employeeAddedDialog.show()
       }
     },
+    filters:{
+      timeFormat(val) {
+        return moment(val).format("YYYY-MM-DD HH:mm:ss");
+      }
+    },
     mounted: function () {
-      this.getInfosByPage(1)
+      this.getTotal();
+      this.loadSumInfos(1)
     }
   }
 

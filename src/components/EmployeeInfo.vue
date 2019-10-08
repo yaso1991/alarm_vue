@@ -227,8 +227,8 @@ import EmployeeUpdateDialog from './EmployeeUpdateDialog'
           this.$refs.employeeUpdateDialog.show(this.selectedColums[0])
         }
       },
-      getInfosByPage (page, size = 20) {
-        this.tableShowData = this.alarmItems
+      getInfosByPage () {
+
       },
       handleSearchEmployee () {
       },
