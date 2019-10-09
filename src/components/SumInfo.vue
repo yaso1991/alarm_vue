@@ -10,36 +10,26 @@
           v-model="searchKey">
         </el-input>
         <el-button @click="searchShow = !searchShow" icon="el-icon-search" size="small" type="primary">搜索</el-button>
+
+      </el-col>
+      <el-col span="12" style="text-align: right;">
         <span>
           <el-upload
             :before-remove="beforeRemove"
             :file-list="fileList"
             :limit="3"
-            :on-exceed="handleExceed"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
             action="https://jsonplaceholder.typicode.com/posts/"
             class="upload-demo"
             multiple
             style="display: inline">
-            <el-button @click="" icon="el-icon-top" plain="true" size="small" type="primary">导出</el-button>
+            <el-button @click="" icon="el-icon-top" plain="true" size="small" type="success">导出</el-button>
           </el-upload>
         </span>
       </el-col>
-      <el-col span="12" style="text-align: right;">
-        <el-row style="text-align: right">
-          <el-pagination
-            :total="total"
-            page-size="20"
-            @current-change="loadSumInfos"
-            background
-            layout="prev, pager, next">
-          </el-pagination>
-        </el-row>
-      </el-col>
     </el-row>
     <el-collapse-transition>
-      <div class="transition-box" style="margin: 10px 0px;border-radius: 3px;border: #E4E7ED solid 1px;padding-top: 20px;padding-left: 20px"
+      <div class="transition-box"
+           style="margin: 10px 0px;border-radius: 3px;border: #E4E7ED solid 1px;padding-top: 20px;padding-left: 20px"
            v-show="searchShow">
         <el-row>
           <el-form :inline="true" :model="searchForm" class="demo-form-inline">
@@ -51,11 +41,12 @@
                   size="small"
                   start-placeholder="开始日期"
                   type="daterange"
-                  v-model="searchForm.rangeTime">
+                  v-model="searchForm.rangeTime"
+                  value-format="yyyy-MM-dd HH:mm:ss">
                 </el-date-picker>
               </el-form-item>
               <el-form-item label="报警点:">
-                <el-input placeholder="报警点名称" size="small" v-model="searchForm.searchAlarmPoint"/>
+                <el-input placeholder="报警点名称" size="small" v-model="searchForm.alarmPoint"/>
               </el-form-item>
               <el-form-item label="当班员工:">
                 <el-input placeholder="员工姓名" size="small" v-model="searchForm.employeeName"/>
@@ -63,7 +54,7 @@
             </el-col>
             <el-col :span="8" style="text-align:right">
               <el-form-item>
-                <el-button @click="onSubmit" size="small" type="primary">查询</el-button>
+                <el-button @click="submitSearch" size="small" type="primary">查询</el-button>
                 <el-button @click="searchShow = false" size="small" type="danger">取消</el-button>
               </el-form-item>
             </el-col>
@@ -71,25 +62,21 @@
         </el-row>
       </div>
     </el-collapse-transition>
-
-    <el-row>
-      <EmployeeAddedDialog ref="employeeAddedDialog"></EmployeeAddedDialog>
-      <EmployeeUpdateDialog ref="employeeUpdateDialog"></EmployeeUpdateDialog>
-    </el-row>
     <el-row style="margin-bottom: 10px">
       <el-table
         :data="tableShowData"
-        @selection-change="handleSelectChange"
         border
+        empty-text="昨天没有发生报警."
         height="800"
         max-height="800"
         size="mini"
         stripe
         style="width: 100%">
         <el-table-column
-          align="left"
-          type="selection"
-          width="30">
+          align="center"
+          label="序号"
+          type="index"
+          width="80">
         </el-table-column>
         <el-table-column
           align="center"
@@ -158,127 +145,64 @@
 </template>
 
 <script>
-  import EmployeeAddedDialog from './AlarmInfoAddedDialog'
-  import EmployeeUpdateDialog from './AlarmInfoUpdateDialog'
   import moment from 'moment'
 
   export default {
     name: 'SumInfo',
-    components: {
-      EmployeeAddedDialog,
-      EmployeeUpdateDialog
-    },
     data () {
       return {
         searchForm: {
-          rangeTime: '',
-          searchAlarmPoint: '',
+          rangeTime: [moment([moment().year(),moment().month(),moment().date()]).subtract(1,'d').format('YYYY-MM-DD HH:mm:ss'), moment([moment().year(),moment().month(),moment().date()]).format('YYYY-MM-DD HH:mm:ss')],
+          alarmPoint: '',
           employeeName: ''
         },
         searchShow: false,
         searchKey: '',
         tableShowData: [],
-        alarmItems: [],
-        total:'',
-        selectedColums: []
+        alarmItems: []
       }
     },
     methods: {
-      handleDelete () {
-        if (this.selectedColums.length <= 0) {
-          return
-        }
-        if (!confirm('确认删除?')) {
-          return
-        }
-        let deleteIds = []
-        for (let index in this.selectedColums) {
-          deleteIds.push(this.selectedColums[index].id)
-        }
-        this.axios({
-          method: 'post',
-          url: '/employeeInfo/deleteEmployees',
-          data: deleteIds,
-        }).then(resp => {
-          if (resp && resp.status == 200 && resp.data == true) {
-            alert('删除成功')
-            this.loadSumInfos()
-            return
-          }
-          alert('删除失败')
-        })
-      },
-      calculateEndTime(start,span) {
-        return  moment.unix(moment(start).unix() + span).format("YYYY-MM-DD HH:mm:ss");
+      calculateEndTime (start, span) {
+        return moment.unix(moment(start).unix() + span).format('YYYY-MM-DD HH:mm:ss')
 
       },
-      handleUpdate () {
-        if (this.selectedColums.length == 1) {
-          this.$refs.employeeUpdateDialog.show(this.selectedColums[0])
-        }
-      },
-      loadSumInfos (page) {
+      loadSumInfos () {
         this.axios({
-          method:'get',
-          url:'/sumInfo/getSumInfos',
-          params:{
-            page:page
+          method: 'get',
+          url: '/sumInfo/getSumInfos',
+          params: {
+            beginTime:this.searchForm.rangeTime ? this.searchForm.rangeTime[0]:null,
+            endTime: this.searchForm.rangeTime ? this.searchForm.rangeTime[1]:null,
+            alarmName: this.searchForm.alarmPoint,
+            employeeName: this.searchForm.employeeName
           }
-        }).then(resp=>{
-          if(resp && resp.status == 200){
-            this.alarmItems = resp.data;
-            this.tableShowData = this.alarmItems;
-            return;
+        }).then(resp => {
+          if (resp && resp.status == 200) {
+            this.alarmItems = resp.data
+            this.tableShowData = this.alarmItems
+            return
           }
-          alert("加载失败.");
-        }).catch(err=>{
-          alert(err);
+          alert('加载失败.')
+        }).catch(err => {
+          alert(err)
         })
       },
-      //TODO ......
-      searchInTable () {
-        let tempArr = []
-        tempArr = searchInObj(this.searchKey, this.alarmInfo)
-        return tempArr
-      },
-      searchInObj (key, obj) {
-        let tempArr = []
-        for (let index in obj) {
-          if (typeof obj[index] == 'object') {
-            searchInObj(key in obj[index])
-          } else {
-            if (key && obj[index] && obj[index].match(key)) {
-              tempArr.push(obj[index])
-            }
-          }
-        }
-        return tempArr
-      },
-      handleSelectChange (selection) {
-        this.selectedColums = selection
-      },
-      getTotal() {
-        this.axios({
-          method:'get',
-          url:'/sumInfo/getTotal'
-        }).then(resp=>{
-          if(resp && resp.status == 200) {
-            this.total = resp.data;
-          }
-        })
+      submitSearch () {
+        this.loadSumInfos()
+        this.searchShow = false
       },
       showDialog () {
         this.$refs.employeeAddedDialog.show()
       }
     },
-    filters:{
-      timeFormat(val) {
-        return moment(val).format("YYYY-MM-DD HH:mm:ss");
+    filters: {
+      timeFormat (val) {
+        return moment(val).format('YYYY-MM-DD HH:mm:ss')
       }
     },
     mounted: function () {
-      this.getTotal();
-      this.loadSumInfos(1)
+      this.loadSumInfos()
     }
   }
 
