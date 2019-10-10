@@ -9,9 +9,9 @@
           style="width: 240px"
           v-model="searchKey">
         </el-input>
-        <el-button @click=" searchShow = !searchShow" icon="el-icon-search" size="small" style="margin-left: 0px"
-                   type="primary">搜索
-        </el-button>
+        <el-button @click="" icon="el-icon-top" size="small" type="success">导出</el-button>
+      </el-col>
+      <el-col span="12" style="text-align: right">
         <el-button @click="showAddedDialog" icon="el-icon-plus" plain="true" size="small" style="margin-left: 0px"
                    type="primary">添加
         </el-button>
@@ -22,38 +22,8 @@
         <el-button @click="handleDelete" icon="el-icon-close" plain="true" size="small" style="margin-left: 0px"
                    type="danger">删除
         </el-button>
-        <span>
-            <el-button @click="" icon="el-icon-top" plain="true" size="small" type="primary">导出</el-button>
-        </span>
       </el-col>
     </el-row>
-    <el-collapse-transition>
-      <div class="transition-box"
-           style="margin: 10px 0px;border-radius: 3px;border: #E4E7ED solid 1px;padding-top: 20px;padding-left: 20px"
-           v-show="searchShow">
-        <el-row>
-          <el-form :inline="true" :model="searchForm" class="demo-form-inline">
-            <el-col :span="16">
-              <el-form-item label="姓名:">
-                <el-input placeholder="请输入姓名" size="small" v-model="searchForm.name"/>
-              </el-form-item>
-              <el-form-item label="工号:">
-                <el-input placeholder="请输入工号" size="small" v-model="searchForm.workId"/>
-              </el-form-item>
-              <el-form-item label="推送等级:">
-                <el-input placeholder="请输入推送等级" size="small" v-model="searchForm.pushLevel"/>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8" style="text-align:right">
-              <el-form-item>
-                <el-button @click="onSubmit" size="small" type="primary">查询</el-button>
-                <el-button @click="searchShow = false" size="small" type="danger">取消</el-button>
-              </el-form-item>
-            </el-col>
-          </el-form>
-        </el-row>
-      </div>
-    </el-collapse-transition>
     <el-row>
       <EmployeeAddedDialog ref="employeeAddedDialog"/>
       <EmployeeUpdateDialog ref="employeeUpdateDialog"/>
@@ -129,7 +99,6 @@
           '5号线中轧测厚',
           '6号线中轧测厚',
         ],
-        searchShow: false,
         searchKey: '',
         tableShowData: [],
         employees: [],
@@ -160,7 +129,7 @@
         }).then(res => {
           if (res && res.status == 200) {
             this.employees = res.data
-            this.tableShowData =  this.employees;
+            this.tableShowData = this.employees
             return
           }
           alert('载入失败')
