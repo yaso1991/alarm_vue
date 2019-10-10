@@ -9,51 +9,36 @@
           style="width: 240px"
           v-model="searchKey">
         </el-input>
-        <el-button @click=" searchShow = !searchShow" icon="el-icon-search" style="margin-left: 0px" size="small" type="primary">搜索</el-button>
-        <el-button @click="showAddedDialog" icon="el-icon-plus" style="margin-left: 0px" plain="true" size="small" type="primary">添加
+        <el-button @click=" searchShow = !searchShow" icon="el-icon-search" size="small" style="margin-left: 0px"
+                   type="primary">搜索
         </el-button>
-        <el-button @click="showUpdateDialog" icon="el-icon-upload" style="margin-left: 0px" plain="true" size="small" type="primary">
+        <el-button @click="showAddedDialog" icon="el-icon-plus" plain="true" size="small" style="margin-left: 0px"
+                   type="primary">添加
+        </el-button>
+        <el-button @click="showUpdateDialog" icon="el-icon-upload" plain="true" size="small" style="margin-left: 0px"
+                   type="primary">
           修改
         </el-button>
-        <el-button @click="handleDelete" icon="el-icon-close" style="margin-left: 0px" plain="true" size="small" type="danger">删除
+        <el-button @click="handleDelete" icon="el-icon-close" plain="true" size="small" style="margin-left: 0px"
+                   type="danger">删除
         </el-button>
         <span>
-          <el-upload
-            :before-remove="beforeRemove"
-            :file-list="fileList"
-            :limit="3"
-            :on-exceed="handleExceed"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            class="upload-demo"
-            multiple
-            style="display: inline">
             <el-button @click="" icon="el-icon-top" plain="true" size="small" type="primary">导出</el-button>
-          </el-upload>
         </span>
-      </el-col>
-      <el-col span="12" style="text-align: right;">
-        <el-row style="text-align: right">
-          <el-pagination
-            :total="100"
-            background
-            layout="prev, pager, next">
-          </el-pagination>
-        </el-row>
       </el-col>
     </el-row>
     <el-collapse-transition>
-      <div class="transition-box" style="margin: 10px 0px;border-radius: 3px;border: #E4E7ED solid 1px;padding-top: 20px;padding-left: 20px"
+      <div class="transition-box"
+           style="margin: 10px 0px;border-radius: 3px;border: #E4E7ED solid 1px;padding-top: 20px;padding-left: 20px"
            v-show="searchShow">
         <el-row>
           <el-form :inline="true" :model="searchForm" class="demo-form-inline">
             <el-col :span="16">
               <el-form-item label="姓名:">
-                <el-input v-model="searchForm.name" size="small" placeholder="请输入姓名"/>
+                <el-input placeholder="请输入姓名" size="small" v-model="searchForm.name"/>
               </el-form-item>
               <el-form-item label="工号:">
-                <el-input v-model="searchForm.workId" size="small" placeholder="请输入工号"/>
+                <el-input placeholder="请输入工号" size="small" v-model="searchForm.workId"/>
               </el-form-item>
               <el-form-item label="推送等级:">
                 <el-input placeholder="请输入推送等级" size="small" v-model="searchForm.pushLevel"/>
@@ -70,8 +55,8 @@
       </div>
     </el-collapse-transition>
     <el-row>
-      <EmployeeAddedDialog ref="employeeAddedDialog" />
-      <EmployeeUpdateDialog ref="employeeUpdateDialog" />
+      <EmployeeAddedDialog ref="employeeAddedDialog"/>
+      <EmployeeUpdateDialog ref="employeeUpdateDialog"/>
     </el-row>
     <el-row style="margin-bottom: 10px">
       <el-table
@@ -104,7 +89,7 @@
         <el-table-column
           align="center"
           label="推送等级"
-          prop="pushLevel"
+          prop="position"
           width="300">
         </el-table-column>
         <el-table-column
@@ -120,21 +105,21 @@
 </template>
 
 <script>
-import EmployeeAddedDialog from './EmployeeAddedDialog'
-import EmployeeUpdateDialog from './EmployeeUpdateDialog'
+  import EmployeeAddedDialog from './EmployeeAddedDialog'
+  import EmployeeUpdateDialog from './EmployeeUpdateDialog'
 
   export default {
     name: 'EmployeeInfo',
-    components:{
+    components: {
       EmployeeAddedDialog,
       EmployeeUpdateDialog
     },
     data () {
       return {
         searchForm: {
-          name:'',
-          workId:'',
-          pushLevel:''
+          name: '',
+          workId: '',
+          pushLevel: ''
         },
         alarmPoints: [
           '1号线中轧测厚',
@@ -147,79 +132,21 @@ import EmployeeUpdateDialog from './EmployeeUpdateDialog'
         searchShow: false,
         searchKey: '',
         tableShowData: [],
-        alarmItems: [
-          {
-            id: 1,
-            name: '班组长A',
-            workId: '555',
-            pushLevel: '班组长',
-            email: '1721662545@qq.com'
-          },
-          {
-            id: 1,
-            name: '班组长B',
-            workId: '555',
-            pushLevel: '班组长',
-            email: '1721662545@qq.com'
-          },
-          {
-            id: 1,
-            name: '员工A',
-            workId: '555',
-            pushLevel: '员工A',
-            email: '1721662545@qq.com'
-          },
-          {
-            id: 1,
-            name: '员工A',
-            workId: '555',
-            pushLevel: '员工A',
-            email: '1721662545@qq.com'
-          },
-          {
-            id: 1,
-            name: '员工A',
-            workId: '555',
-            pushLevel: '员工A',
-            email: '1721662545@qq.com'
-          },
-          {
-            id: 1,
-            name: '员工A',
-            workId: '555',
-            pushLevel: '员工A',
-            email: '1721662545@qq.com'
-          },
-          {
-            id: 1,
-            name: '员工A',
-            workId: '555',
-            pushLevel: '员工A',
-            email: '1721662545@qq.com'
-          },
-          {
-            id: 1,
-            name: '员工A',
-            workId: '555',
-            pushLevel: '员工A',
-            email: '1721662545@qq.com'
-          }
-
-        ],
+        employees: [],
         selectedColums: []
       }
     },
     methods: {
       handleDelete () {
-        if(this.selectedColums.length <= 0) {
-          alert('请先选择需要删除的员工资料.');
-          return;
+        if (this.selectedColums.length <= 0) {
+          alert('请先选择需要删除的员工资料.')
+          return
         }
-        if(!confirm('确认删除所选员工的资料?')) {
-          return ;
+        if (!confirm('确认删除所选员工的资料?')) {
+          return
         }
         //TODO 删除员工资料
-        alert('删除成功.');
+        alert('删除成功.')
 
       },
       handleUpdate () {
@@ -227,8 +154,19 @@ import EmployeeUpdateDialog from './EmployeeUpdateDialog'
           this.$refs.employeeUpdateDialog.show(this.selectedColums[0])
         }
       },
-      getInfosByPage () {
-
+      loadAllEmployees () {
+        this.axios({
+          url: '/employeeInfo'
+        }).then(res => {
+          if (res && res.status == 200) {
+            this.employees = res.data
+            this.tableShowData =  this.employees;
+            return
+          }
+          alert('载入失败')
+        }).catch(err => {
+          alert(err)
+        })
       },
       handleSearchEmployee () {
       },
@@ -239,15 +177,15 @@ import EmployeeUpdateDialog from './EmployeeUpdateDialog'
         this.$refs.employeeAddedDialog.show()
       },
       showUpdateDialog () {
-        if(this.selectedColums.length != 1) {
-          alert('每次只能修改一个员工的资料.');
-          return;
+        if (this.selectedColums.length != 1) {
+          alert('每次只能修改一个员工的资料.')
+          return
         }
         this.$refs.employeeUpdateDialog.show(this.selectedColums[0])
       },
     },
     mounted: function () {
-      this.getInfosByPage(1)
+      this.loadAllEmployees()
     }
   }
 
