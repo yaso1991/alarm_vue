@@ -18,7 +18,7 @@
       <el-aside style="height: 880px" width="180px">
         <el-row>
           <el-col>
-            <el-menu @close="handleClose" @open="handleOpen" background-color="black" class="el-menu-vertical-demo"
+            <el-menu background-color="black" class="el-menu-vertical-demo"
                      default-active="2" router="true" text-color="white">
               <el-menu-item index="/alarmInfo">
                 <template slot="title">
@@ -65,12 +65,12 @@
       <el-main id="main">
         <router-view></router-view>
         <el-drawer
-          :before-close="closeDrawer" :direction="direction" :visible.sync="systemConfigVisible" size="700px"
+           :visible.sync="systemConfigVisible" size="700px"
           title="系统设置">
           <SystemConfig @submitted="closeConfigDrawer"/>
         </el-drawer>
         <el-drawer
-          :before-close="closeDrawer" :direction="direction" :visible.sync="ManagerInfoDrawerVisible" size="1100px"
+          :visible.sync="ManagerInfoDrawerVisible" size="1100px"
           title="管理员设置">
           <ManagerInfo @submitted="closeManagerInfo"/>
         </el-drawer>
@@ -99,12 +99,6 @@
       }
     },
     methods: {
-      handleOpen () {
-
-      },
-      handleClose () {
-
-      },
       showSystemConfigDrawer () {
         this.systemConfigVisible = true
       },

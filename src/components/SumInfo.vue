@@ -14,16 +14,7 @@
       </el-col>
       <el-col span="12" style="text-align: right;">
         <span>
-          <el-upload
-            :before-remove="beforeRemove"
-            :file-list="fileList"
-            :limit="3"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            class="upload-demo"
-            multiple
-            style="display: inline">
-            <el-button @click="" icon="el-icon-top" plain="true" size="small" type="success">导出</el-button>
-          </el-upload>
+            <el-button @click="handleExport" icon="el-icon-top" plain="true" size="small" type="success">导出</el-button>
         </span>
       </el-col>
     </el-row>
@@ -152,7 +143,7 @@
     data () {
       return {
         searchForm: {
-          rangeTime: [moment([moment().year(),moment().month(),moment().date()]).subtract(1,'d').format('YYYY-MM-DD HH:mm:ss'), moment([moment().year(),moment().month(),moment().date()]).format('YYYY-MM-DD HH:mm:ss')],
+          rangeTime: [moment([moment().year(), moment().month(), moment().date()]).subtract(1, 'd').format('YYYY-MM-DD HH:mm:ss'), moment([moment().year(), moment().month(), moment().date()]).format('YYYY-MM-DD HH:mm:ss')],
           alarmPoint: '',
           employeeName: ''
         },
@@ -167,13 +158,16 @@
         return moment.unix(moment(start).unix() + span).format('YYYY-MM-DD HH:mm:ss')
 
       },
+      handleExport() {
+        window.open('/sumInfo/exportSumInfos','_parent')
+      },
       loadSumInfos () {
         this.axios({
           method: 'get',
           url: '/sumInfo/getSumInfos',
           params: {
-            beginTime:this.searchForm.rangeTime ? this.searchForm.rangeTime[0]:null,
-            endTime: this.searchForm.rangeTime ? this.searchForm.rangeTime[1]:null,
+            beginTime: this.searchForm.rangeTime ? this.searchForm.rangeTime[0] : null,
+            endTime: this.searchForm.rangeTime ? this.searchForm.rangeTime[1] : null,
             alarmName: this.searchForm.alarmPoint,
             employeeName: this.searchForm.employeeName
           }
