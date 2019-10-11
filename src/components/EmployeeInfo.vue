@@ -114,9 +114,24 @@
         if (!confirm('确认删除所选员工的资料?')) {
           return
         }
-        //TODO 删除员工资料
-        alert('删除成功.')
 
+        let deleteIds = []
+        for (let i in this.selectedColums) {
+          deleteIds.push(this.selectedColums[i].id)
+        }
+        this.axios({
+          method: 'post',
+          url: '/employeeInfo/deleteEmployees',
+          data: deleteIds
+        }).then(res => {
+          if (res && res.status == 200 && res.data) {
+            alert('删除成功')
+            return
+          }
+          alert('删除失败')
+        }).catch(err => {
+          alert(err)
+        })
       },
       handleUpdate () {
         if (this.selectedColums.length == 1) {
