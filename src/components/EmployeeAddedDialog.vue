@@ -11,7 +11,6 @@
       label-position="right"
       label-width="100px"
       ref="formOfAddEmployeeInfo"
-      size="small"
       style="margin-left: 100px">
       <el-row>
         <el-col :span="12">
